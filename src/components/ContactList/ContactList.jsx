@@ -1,7 +1,7 @@
 import ContactItem from 'components/ContactItem/ContactItem';
 import { useGetContactsQuery } from 'redux/contacts/contactsApi';
 import PropTypes from 'prop-types';
-import s from './ContactList.module.css';
+import { List, ListItem } from '@mui/material';
 
 export default function ContactList({ filter }) {
   const { data } = useGetContactsQuery();
@@ -12,13 +12,13 @@ export default function ContactList({ filter }) {
 
   if (contactsFiltered) {
     return (
-      <ul>
-        {contactsFiltered.map(({ id, name, phone }) => (
-          <li className={s.li} key={id}>
-            <ContactItem id={id} name={name} number={phone} />
-          </li>
+      <List sx={{ mt: '0.5rem' }}>
+        {contactsFiltered.map(({ id, name, number }) => (
+          <ListItem key={id} sx={{ height: '40px' }}>
+            <ContactItem id={id} name={name} number={number} />
+          </ListItem>
         ))}
-      </ul>
+      </List>
     );
   }
 }
