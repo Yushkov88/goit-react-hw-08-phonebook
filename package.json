@@ -2,7 +2,7 @@
   "name": "Phonebook",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://yushkov88.github.io/Phonebook/",
+  "homepage": "https://yushkov88.github.io/goit-react-hw-08-phonebook/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
