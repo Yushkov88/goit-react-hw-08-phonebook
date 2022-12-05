@@ -24,7 +24,7 @@ export default function App() {
   return (
     <Suspense fallback={<ButtonAppBar />}>
       <Routes>
-        <Route path="/Phonebook/" element={<ButtonAppBar />}>
+        <Route path="/goit-react-hw-08-phonebook/" element={<ButtonAppBar />}>
           <Route index element={<HomePage />} />
           <Route
             path="register"
@@ -53,7 +53,9 @@ export default function App() {
         </Route>
         <Route
           path="*"
-          element={<Navigate to="/Phonebook/" replace={true} />}
+          element={
+            <Navigate to="/goit-react-hw-08-phonebook/" replace={true} />
+          }
         />
       </Routes>
     </Suspense>
