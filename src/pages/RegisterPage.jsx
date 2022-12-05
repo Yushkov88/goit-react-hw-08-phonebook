@@ -92,7 +92,6 @@ export default function RegisterPage() {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      // autoComplete="off"
       sx={{
         padding: '2rem',
         maxWidth: '20rem',
