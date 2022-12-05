@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   useGetContactsQuery,
   useAddContactMutation,
@@ -13,7 +13,7 @@ export default function ContactForm() {
   const { data } = useGetContactsQuery();
   const [addContactApi, { isLoading, isSuccess, isError, error }] =
     useAddContactMutation();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -45,32 +45,39 @@ export default function ContactForm() {
     }
   };
 
+  const manageError = useCallback(
+    status => {
+      let message;
+
+      switch (status) {
+        case status === 404:
+          message = "Sorry, we can't find this page";
+          break;
+        case status === 400:
+          message = 'Internet is disconnected';
+          break;
+        default:
+          message = 'Something went wrong, please try again later';
+      }
+
+      enqueueSnackbar(message, {
+        variant: 'error',
+      });
+    },
+    [enqueueSnackbar]
+  );
+
   useEffect(() => {
-    isSuccess &&
+    if (isSuccess) {
       enqueueSnackbar('Contact added successfully', {
         variant: 'success',
       });
-    if (isError && error?.originalStatus === 404) {
-      enqueueSnackbar("Sorry, we can't find this page", {
-        variant: 'error',
-      });
-    } else if (isError && error?.status === 'FETCH_ERROR') {
-      enqueueSnackbar('Internet is disconnected', {
-        variant: 'error',
-      });
-    } else if (isError) {
-      enqueueSnackbar('Something went wrong, please try again later', {
-        variant: 'error',
-      });
     }
-  }, [
-    closeSnackbar,
-    isSuccess,
-    isError,
-    enqueueSnackbar,
-    error?.originalStatus,
-    error?.status,
-  ]);
+
+    if (isError) {
+      manageError(error?.status);
+    }
+  }, [isSuccess, isError, enqueueSnackbar, error?.status, manageError]);
 
   return (
     <Box
